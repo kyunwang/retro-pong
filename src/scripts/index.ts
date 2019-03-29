@@ -10,16 +10,19 @@ class Pong {
 	constructor() {
 		this.canvas;
 		this.ctx;
+		this.render = this.render.bind(this);
 	}
 
 	init() {
-		this.addCanvas();
+		this.createCanvas();
 		this.readyField();
 
 		addCanvasResize(this.canvas, this.ctx);
+
+		this.render();
 	}
 
-	addCanvas() {
+	createCanvas() {
 		const canvas = document.createElement('canvas');
 		canvas.width = width;
 		canvas.height = height;
@@ -35,6 +38,10 @@ class Pong {
 	readyField() {
 		this.canvas.fillStyle = '#ff00ff';
 		this.ctx.fillRect(0, 0, width, height);
+	}
+
+	render() {
+		window.requestAnimationFrame(this.render);
 	}
 }
 
