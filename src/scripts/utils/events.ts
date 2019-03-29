@@ -8,12 +8,18 @@ const debounce = cb => {
 	};
 };
 
-export const addCanvasResize = (canvas: HTMLCanvasElement) => {
+export const addCanvasResize = (canvas: HTMLCanvasElement, ctx) => {
 	window.addEventListener(
 		'resize',
 		debounce(() => {
-			canvas.width = window.innerWidth;
-			canvas.height = window.innerHeight;
+			const width = window.innerWidth;
+			const height = window.innerHeight;
+
+			canvas.width = width;
+			canvas.height = height;
+			canvas.fillStyle = '#ff00ff';
+
+			ctx.fillRect(0, 0, width, height);
 		})
 	);
 };
