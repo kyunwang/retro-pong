@@ -1,4 +1,4 @@
-import { addCanvasResize } from './utils/events';
+import { addCanvasResize, requestAnimationFrame } from './helpers/utils';
 
 const width: number = window.innerWidth;
 const height: number = window.innerHeight;

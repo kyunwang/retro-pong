@@ -8,6 +8,14 @@ const debounce = cb => {
 	};
 };
 
+export const requestAnimationFrame =
+	window.requestAnimationFrame ||
+	window.webkitRequestAnimationFrame ||
+	window.mozRequestAnimationFrame ||
+	function(callback) {
+		window.setTimeout(callback, 1000 / 60); // 60fps per seconds
+	};
+
 export const addCanvasResize = (canvas: HTMLCanvasElement, ctx) => {
 	window.addEventListener(
 		'resize',
