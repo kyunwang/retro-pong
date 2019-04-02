@@ -21,18 +21,25 @@ export const requestAnimationFrame =
 		window.setTimeout(callback, 1000 / 60); // 60fps per seconds
 	};
 
-export const addCanvasResize = (canvas: HTMLCanvasElement, ctx) => {
+export const addCanvasResize = (
+	canvas: HTMLCanvasElement,
+	ctx,
+	cb = () => {}
+) => {
 	window.addEventListener(
 		'resize',
 		debounce(() => {
+			const { fieldH, fieldW, orientation } = getFieldSize();
 			const width = window.innerWidth;
 			const height = window.innerHeight;
 
-			canvas.width = width;
-			canvas.height = height;
+			canvas.width = fieldW;
+			canvas.height = fieldH;
 			canvas.fillStyle = '#ff00ff';
 
 			ctx.fillRect(0, 0, width, height);
+
+			cb(); // Should update positions in case orientation has changed
 		})
 	);
 };
