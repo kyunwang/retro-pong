@@ -7,12 +7,14 @@ class Ball {
 	private xSpeed: number;
 	private ySpeed: number;
 
-	constructor(ctx, x: number, y: number, height: number, width: number) {
+	constructor(ctx, ballSettings) {
+		const { size, yPos, xPos } = ballSettings;
+
 		this.ctx = ctx;
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.x = xPos;
+		this.y = yPos;
+		this.width = size;
+		this.height = size;
 		this.xSpeed = 0;
 		this.ySpeed = 0;
 

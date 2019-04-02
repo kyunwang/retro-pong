@@ -51,23 +51,13 @@ class Pong {
 	}
 
 	createPaddles() {
-		const { pWidth, pHeight, yDiff, xDiff } = paddleSettings;
+		this.player1 = new Paddle(this.ctx, paddleSettings);
 
-		this.player1 = new Paddle(this.ctx, xDiff, fieldH - yDiff, pWidth, pHeight);
-
-		this.player2 = new Paddle(
-			this.ctx,
-			xDiff,
-			yDiff - pHeight,
-			pWidth,
-			pHeight
-		);
+		this.player2 = new Paddle(this.ctx, paddleSettings, false);
 	}
 
 	createBall() {
-		const { size, yPos, xPos } = ballSettings;
-
-		this.ball = new Ball(this.ctx, xPos, yPos, size, size);
+		this.ball = new Ball(this.ctx, ballSettings);
 	}
 
 	readyField() {

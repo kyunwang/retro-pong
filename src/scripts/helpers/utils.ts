@@ -45,10 +45,10 @@ export const getFieldSize = () => {
 	let orientation: string;
 
 	if (aspectRatio > 1) {
-		fieldW = windowH * ((1 / 3) * 2);
+		fieldW = windowH * (2 / 3);
 		orientation = 'vertical';
 	} else {
-		fieldH = windowW * ((1 / 3) * 2);
+		fieldH = windowW * (2 / 3);
 		orientation = 'horizontal';
 	}
 
@@ -56,16 +56,23 @@ export const getFieldSize = () => {
 };
 
 export const getPaddleSettings = () => {
-	const { fieldH, fieldW } = getFieldSize();
+	const { fieldH, fieldW, orientation } = getFieldSize();
 
-	const paddleSettings = {
-		pWidth: 50,
-		pHeight: 10,
-		yDiff: fieldH * 0.1,
-		xDiff: fieldW * 0.5 - 50 / 2,
+	if (orientation === 'vertical') {
+		return {
+			paddleW: 50,
+			paddleH: 10,
+			yDiff: fieldH * 0.1,
+			xDiff: fieldW * 0.5 - 50 / 2,
+		};
+	}
+
+	return {
+		paddleW: 10,
+		paddleH: 50,
+		yDiff: fieldH * 0.5 - 50 / 2,
+		xDiff: fieldW * 0.1,
 	};
-
-	return paddleSettings;
 };
 
 export const getBallSettings = () => {
