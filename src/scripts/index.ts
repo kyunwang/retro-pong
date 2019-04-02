@@ -1,23 +1,16 @@
-import { addCanvasResize, requestAnimationFrame } from './helpers/utils';
+import {
+	addCanvasResize,
+	requestAnimationFrame,
+	getFieldSettings,
+	getPaddleSettings,
+	getBallSettings,
+} from './helpers/utils';
 import Ball from './Objects/Ball';
 import Paddle from './Objects/Paddle';
 
-const wWidth: number = window.innerWidth;
-const wHeight: number = window.innerHeight;
-
-const aspectRatio = wWidth / wHeight;
-
-const paddleSettings = {
-	width: 50,
-	height: 10,
-	yDiff: wHeight * 0.1,
-	xDiff: wWidth * 0.5 - 50 / 2,
-};
-const ballSettings = {
-	size: 5,
-	yPos: wHeight * 0.5 - 2.5,
-	xPos: wWidth * 0.5 - 5 / 2,
-};
+const { fieldW, fieldH, orientation } = getFieldSettings();
+const paddleSettings = getPaddleSettings();
+const ballSettings = getBallSettings();
 
 class Pong {
 	canvas: HTMLCanvasElement;
@@ -46,8 +39,8 @@ class Pong {
 
 	createCanvas() {
 		const canvas = document.createElement('canvas');
-		canvas.width = wWidth;
-		canvas.height = wHeight;
+		canvas.width = fieldW;
+		canvas.height = fieldH;
 
 		const context = canvas.getContext('2d');
 
@@ -58,11 +51,17 @@ class Pong {
 	}
 
 	createPaddles() {
-		const { width, height, yDiff, xDiff } = paddleSettings;
+		const { pWidth, pHeight, yDiff, xDiff } = paddleSettings;
 
-		this.player1 = new Paddle(this.ctx, xDiff, wHeight - yDiff, width, height);
+		this.player1 = new Paddle(this.ctx, xDiff, fieldH - yDiff, pWidth, pHeight);
 
-		this.player2 = new Paddle(this.ctx, xDiff, yDiff - height, width, height);
+		this.player2 = new Paddle(
+			this.ctx,
+			xDiff,
+			yDiff - pHeight,
+			pWidth,
+			pHeight
+		);
 	}
 
 	createBall() {
@@ -73,7 +72,7 @@ class Pong {
 
 	readyField() {
 		this.canvas.fillStyle = '#ff00ff';
-		this.ctx.fillRect(0, 0, wWidth, wHeight);
+		this.ctx.fillRect(0, 0, fieldW, fieldH);
 	}
 
 	render() {
