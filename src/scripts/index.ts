@@ -71,7 +71,7 @@ class Pong {
 			} else {
 				if (key === 'ArrowUp') {
 					this.player1.direction = DIRECTION.UP;
-				} else {
+				} else if (key === 'ArrowDown') {
 					this.player1.direction = DIRECTION.DOWN;
 				}
 			}
