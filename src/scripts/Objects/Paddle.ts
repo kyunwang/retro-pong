@@ -1,25 +1,26 @@
 import { getFieldSettings } from '../helpers/utils';
+import { DIRECTION } from '../helpers/consts';
+const { fieldW, fieldH, orientation } = getFieldSettings();
 
 class Paddle {
 	public ctx;
-	private x: number;
-	private y: number;
+	public direction: number;
+	public x: number;
+	public y: number;
+
 	private width: number;
 	private height: number;
-	private xSpeed: number;
-	private ySpeed: number;
+	private speed: number;
 
 	constructor(ctx, paddleSettings, primary = true) {
 		const { paddleW, paddleH, yDiff, xDiff } = paddleSettings;
-		const { fieldW, fieldH, orientation } = getFieldSettings();
 
 		this.ctx = ctx;
 		this.x = xDiff;
 		this.y = yDiff;
 		this.width = paddleW;
 		this.height = paddleH;
-		this.xSpeed = 9;
-		this.ySpeed = 9;
+		this.speed = 9;
 
 		if (orientation === 'vertical') {
 			this.y = primary ? fieldH - yDiff : yDiff - paddleH;
@@ -35,7 +36,19 @@ class Paddle {
 	}
 
 	update() {
-		// console.log(this.x);
+		if (orientation === 'vertical') {
+			if (this.direction === DIRECTION.LEFT) {
+				this.x -= this.speed;
+			} else if (this.direction === DIRECTION.RIGHT) {
+				this.x += this.speed;
+			}
+		} else {
+			if (this.direction === DIRECTION.UP) {
+				this.y -= this.speed;
+			} else if (this.direction === DIRECTION.DOWN) {
+				this.y += this.speed;
+			}
+		}
 	}
 
 	render() {

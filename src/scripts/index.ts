@@ -7,6 +7,7 @@ import {
 } from './helpers/utils';
 import Ball from './Objects/Ball';
 import Paddle from './Objects/Paddle';
+import { DIRECTION } from './helpers/consts';
 
 const { fieldW, fieldH, orientation } = getFieldSettings();
 const paddleSettings = getPaddleSettings();
@@ -58,24 +59,26 @@ class Pong {
 		this.player1.render();
 		this.player2 = new Paddle(this.ctx, paddleSettings, false);
 
-		window.addEventListener('keydown', event => {
+		document.addEventListener('keydown', event => {
+			const { key } = event;
 			if (orientation === 'vertical') {
-				switch (event.code) {
-					case 'ArrowLeft':
-						console.log(this.player1.x);
-
-						this.player1.x -= 9;
-						break;
-					case 'ArrowRight':
-						break;
-					case 'KeyA':
-						break;
-					case 'KeyD':
-						break;
-					default:
-						return;
+				if (key === 'ArrowLeft') {
+					this.player1.direction = DIRECTION.LEFT;
+				}
+				if (key === 'ArrowRight') {
+					this.player1.direction = DIRECTION.RIGHT;
+				}
+			} else {
+				if (key === 'ArrowUp') {
+					this.player1.direction = DIRECTION.UP;
+				} else {
+					this.player1.direction = DIRECTION.DOWN;
 				}
 			}
+		});
+
+		document.addEventListener('keyup', () => {
+			this.player1.direction = DIRECTION.IDLE;
 		});
 	}
 
@@ -86,6 +89,13 @@ class Pong {
 	drawField() {
 		this.ctx.fillStyle = '#000000';
 		this.ctx.fillRect(0, 0, fieldW, fieldH);
+	}
+
+	handleBallActions() {
+		// if ball collides with boundaries
+		// if {}
+		// if ball collides with paddle
+		// if (this.player1.)
 	}
 
 	draw() {
