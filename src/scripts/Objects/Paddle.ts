@@ -18,8 +18,8 @@ class Paddle {
 		this.y = yDiff;
 		this.width = paddleW;
 		this.height = paddleH;
-		this.xSpeed = 0;
-		this.ySpeed = 0;
+		this.xSpeed = 9;
+		this.ySpeed = 9;
 
 		if (orientation === 'vertical') {
 			this.y = primary ? fieldH - yDiff : yDiff - paddleH;
@@ -27,10 +27,16 @@ class Paddle {
 			this.x = primary ? xDiff - paddleW : fieldW - xDiff;
 		}
 
-		this.render();
+		// this.render();
 	}
 
-	move() {}
+	move(x) {
+		this.x = x;
+	}
+
+	update() {
+		// console.log(this.x);
+	}
 
 	render() {
 		this.ctx.fillStyle = '#fff';

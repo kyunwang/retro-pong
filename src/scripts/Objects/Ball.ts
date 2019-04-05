@@ -16,12 +16,15 @@ class Ball {
 		this.width = size;
 		this.height = size;
 		this.xSpeed = 0;
-		this.ySpeed = 0;
+		this.ySpeed = 3;
 
 		this.render();
 	}
 
-	update() {}
+	update() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}
 
 	render() {
 		this.ctx.fillStyle = '#fff';
