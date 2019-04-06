@@ -3,15 +3,15 @@ import { DIRECTION } from '../helpers/consts';
 const { fieldW, fieldH, orientation } = getFieldSettings();
 
 class Paddle {
-	public ctx;
-	public direction: number;
-	public isPlayer: boolean;
+	ctx;
+	direction: number;
+	isPlayer: boolean;
 
-	public x: number;
-	public y: number;
-	public width: number;
-	public height: number;
-	public speed: number;
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	speed: number;
 
 	constructor({ ctx, paddleSettings, primary = true, isPlayer = false }) {
 		const { paddleW, paddleH, yDiff, xDiff } = paddleSettings;

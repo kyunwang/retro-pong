@@ -20,10 +20,14 @@ class Pong {
 	paddle2;
 	ball;
 
-	constructor() {
+	isVersus: boolean;
+
+	constructor(isVersus) {
 		this.canvas;
 		this.ctx;
 		this.render = this.render.bind(this);
+
+		this.isVersus = isVersus;
 	}
 
 	init() {
@@ -71,6 +75,7 @@ class Pong {
 
 		document.addEventListener('keydown', event => {
 			const { key } = event;
+			console.log(key);
 			if (orientation === 'vertical') {
 				if (key === 'ArrowLeft') {
 					this.paddle1.direction = DIRECTION.LEFT;
@@ -129,5 +134,6 @@ class Pong {
 	}
 }
 
-const Game = new Pong();
+// Is two player or not
+const Game = new Pong(false);
 Game.init();

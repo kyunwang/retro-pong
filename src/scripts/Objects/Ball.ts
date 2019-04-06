@@ -3,10 +3,10 @@ import { getFieldSettings } from '../helpers/utils';
 const { orientation } = getFieldSettings();
 
 class Ball {
-	public ctx;
-	public canvas;
-	public directionX: number;
-	public directionY: number;
+	ctx;
+	canvas;
+	directionX: number;
+	directionY: number;
 
 	private x: number;
 	private y: number;
