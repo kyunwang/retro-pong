@@ -85,7 +85,13 @@ class Pong {
 	}
 
 	createBall() {
-		this.ball = new Ball(this.ctx, ballSettings, this.paddle1, this.paddle2);
+		this.ball = new Ball(
+			this.ctx,
+			this.canvas,
+			ballSettings,
+			this.paddle1,
+			this.paddle2
+		);
 	}
 
 	drawField() {

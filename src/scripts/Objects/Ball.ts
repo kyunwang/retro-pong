@@ -4,6 +4,7 @@ const { orientation } = getFieldSettings();
 
 class Ball {
 	public ctx;
+	public canvas;
 	public directionX: number;
 	public directionY: number;
 
@@ -17,10 +18,11 @@ class Ball {
 	private paddle1;
 	private paddle2;
 
-	constructor(ctx, ballSettings, paddle1, paddle2) {
+	constructor(ctx, canvas, ballSettings, paddle1, paddle2) {
 		const { size, yPos, xPos } = ballSettings;
 
 		this.ctx = ctx;
+		this.canvas = canvas;
 		this.x = xPos;
 		this.y = yPos;
 		this.width = size;
@@ -29,13 +31,13 @@ class Ball {
 		this.ySpeed = 3;
 		this.directionX = DIRECTION.IDLE;
 		this.directionY = DIRECTION.UP;
-		this.speed = 20;
+		this.speed = 10;
 
 		this.paddle1 = paddle1;
 		this.paddle2 = paddle2;
 
-		// this.init();
-		this.render();
+		this.init();
+		// this.render();
 	}
 
 	checkPaddle1() {
@@ -58,9 +60,11 @@ class Ball {
 
 			// Check scoring and reset?
 
-			// Check boundary collision left
-
-			// Check boundary collision right
+			// Check boundary collision left & right
+			if (this.x <= 0) this.directionX = DIRECTION.RIGHT;
+			if (this.x >= this.canvas.width) this.directionX = DIRECTION.LEFT;
+			// if (this.y <= 0) console.log(1);
+			// if (this.y - this.height >= this.canvas.height) console.log(2);
 		} else {
 		}
 	}
@@ -85,8 +89,7 @@ class Ball {
 
 	update() {
 		const posChange = this.speed / 1.5;
-		// this.x += this.xSpeed;
-		// this.y += this.ySpeed;
+
 		if (this.directionY === DIRECTION.UP) this.y -= posChange;
 		else if (this.directionY === DIRECTION.DOWN) this.y += posChange;
 		if (this.directionX === DIRECTION.LEFT) this.x -= posChange;
@@ -96,13 +99,15 @@ class Ball {
 		this.checkPaddle2();
 	}
 
+	reset() {}
+
 	render() {
 		this.ctx.fillStyle = '#fff';
 		this.ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
 
 	init() {
-		this.directionX = DIRECTION.LEFT;
+		this.directionX = DIRECTION.RIGHT;
 		this.directionY = DIRECTION.DOWN;
 		this.render();
 	}
