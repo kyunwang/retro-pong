@@ -16,8 +16,8 @@ const ballSettings = getBallSettings();
 class Pong {
 	canvas: HTMLCanvasElement;
 	ctx;
-	player1;
-	player2;
+	paddle1;
+	paddle2;
 	ball;
 
 	constructor() {
@@ -55,35 +55,37 @@ class Pong {
 	}
 
 	createPaddles() {
-		this.player1 = new Paddle(this.ctx, paddleSettings);
-		this.player1.render();
-		this.player2 = new Paddle(this.ctx, paddleSettings, false);
+		// Create and initial render
+		this.paddle1 = new Paddle(this.ctx, paddleSettings);
+		this.paddle1.render();
+		this.paddle2 = new Paddle(this.ctx, paddleSettings, false);
+		this.paddle2.render();
 
 		document.addEventListener('keydown', event => {
 			const { key } = event;
 			if (orientation === 'vertical') {
 				if (key === 'ArrowLeft') {
-					this.player1.direction = DIRECTION.LEFT;
+					this.paddle1.direction = DIRECTION.LEFT;
 				}
 				if (key === 'ArrowRight') {
-					this.player1.direction = DIRECTION.RIGHT;
+					this.paddle1.direction = DIRECTION.RIGHT;
 				}
 			} else {
 				if (key === 'ArrowUp') {
-					this.player1.direction = DIRECTION.UP;
+					this.paddle1.direction = DIRECTION.UP;
 				} else if (key === 'ArrowDown') {
-					this.player1.direction = DIRECTION.DOWN;
+					this.paddle1.direction = DIRECTION.DOWN;
 				}
 			}
 		});
 
 		document.addEventListener('keyup', () => {
-			this.player1.direction = DIRECTION.IDLE;
+			this.paddle1.direction = DIRECTION.IDLE;
 		});
 	}
 
 	createBall() {
-		this.ball = new Ball(this.ctx, ballSettings);
+		this.ball = new Ball(this.ctx, ballSettings, this.paddle1, this.paddle2);
 	}
 
 	drawField() {
@@ -91,23 +93,18 @@ class Pong {
 		this.ctx.fillRect(0, 0, fieldW, fieldH);
 	}
 
-	handleBallActions() {
-		// if ball collides with boundaries
-		// if {}
-		// if ball collides with paddle
-		// if (this.player1.)
-	}
-
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.drawField();
 
-		this.player1.render();
+		this.paddle1.render();
+		this.paddle2.render();
 		this.ball.render();
 	}
 
 	update() {
-		this.player1.update();
+		this.paddle1.update();
+		this.paddle2.update();
 		this.ball.update();
 	}
 

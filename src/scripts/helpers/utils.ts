@@ -89,8 +89,8 @@ export const getBallSettings = () => {
 
 	const ballSettings = {
 		size: 10,
-		yPos: fieldH * 0.5 - 2.5,
-		xPos: fieldW * 0.5 - 5 / 2,
+		yPos: fieldH * 0.5 - 5,
+		xPos: fieldW * 0.5 - 5,
 	};
 
 	return ballSettings;
