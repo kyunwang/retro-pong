@@ -64,12 +64,14 @@ class Pong {
 		// Create and initial render
 		this.paddle1 = new Paddle({
 			ctx: this.ctx,
+			canvas: this.canvas,
 			paddleSettings,
 			isPlayer: true,
 		});
 		this.paddle1.render();
 		this.paddle2 = new Paddle({
 			ctx: this.ctx,
+			canvas: this.canvas,
 			paddleSettings,
 			primary: false,
 			isPlayer: this.isVersus,
@@ -83,19 +85,20 @@ class Pong {
 
 			if (orientation === 'vertical') {
 				if (key === 'a') this.paddle1.direction = DIRECTION.LEFT;
-				if (key === 'd') this.paddle1.direction = DIRECTION.RIGHT;
+				else if (key === 'd') this.paddle1.direction = DIRECTION.RIGHT;
 
 				if (this.isVersus) {
 					if (key === 'ArrowLeft') this.paddle2.direction = DIRECTION.LEFT;
-					if (key === 'ArrowRight') this.paddle2.direction = DIRECTION.RIGHT;
+					else if (key === 'ArrowRight')
+						this.paddle2.direction = DIRECTION.RIGHT;
 				}
 			} else {
 				if (key === 'w') this.paddle1.direction = DIRECTION.UP;
-				if (key === 's') this.paddle1.direction = DIRECTION.DOWN;
+				else if (key === 's') this.paddle1.direction = DIRECTION.DOWN;
 
 				if (this.isVersus) {
 					if (key === 'ArrowUp') this.paddle2.direction = DIRECTION.UP;
-					if (key === 'ArrowDown') this.paddle2.direction = DIRECTION.DOWN;
+					else if (key === 'ArrowDown') this.paddle2.direction = DIRECTION.DOWN;
 				}
 			}
 		});

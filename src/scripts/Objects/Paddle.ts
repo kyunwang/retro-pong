@@ -3,7 +3,8 @@ import { DIRECTION } from '../helpers/consts';
 const { fieldW, fieldH, orientation } = getFieldSettings();
 
 class Paddle {
-	ctx;
+	ctx: CanvasRenderingContext2D;
+	canvas: HTMLCanvasElement;
 	direction: number;
 	isPlayer: boolean;
 
@@ -13,10 +14,17 @@ class Paddle {
 	height: number;
 	speed: number;
 
-	constructor({ ctx, paddleSettings, primary = true, isPlayer = false }) {
+	constructor({
+		ctx,
+		canvas,
+		paddleSettings,
+		primary = true,
+		isPlayer = false,
+	}) {
 		const { paddleW, paddleH, yDiff, xDiff } = paddleSettings;
 
 		this.ctx = ctx;
+		this.canvas = canvas;
 		this.x = xDiff;
 		this.y = yDiff;
 		this.width = paddleW;
@@ -29,28 +37,29 @@ class Paddle {
 		} else {
 			this.x = primary ? xDiff - paddleW : fieldW - xDiff;
 		}
-
-		// this.render();
 	}
 
-	move(x) {
-		this.x = x;
+	checkPaddle() {
+		// Check boundary collision
+		if (this.y <= 0) this.y = 0;
+		else if (this.y >= this.canvas.height - this.height)
+			this.y = this.canvas.height - this.height;
+
+		if (this.x <= 0) this.x = 0;
+		else if (this.x >= this.canvas.width - this.width)
+			this.x = this.canvas.width - this.width;
 	}
 
 	update() {
 		if (orientation === 'vertical') {
-			if (this.direction === DIRECTION.LEFT) {
-				this.x -= this.speed;
-			} else if (this.direction === DIRECTION.RIGHT) {
-				this.x += this.speed;
-			}
+			if (this.direction === DIRECTION.LEFT) this.x -= this.speed;
+			else if (this.direction === DIRECTION.RIGHT) this.x += this.speed;
 		} else {
-			if (this.direction === DIRECTION.UP) {
-				this.y -= this.speed;
-			} else if (this.direction === DIRECTION.DOWN) {
-				this.y += this.speed;
-			}
+			if (this.direction === DIRECTION.UP) this.y -= this.speed;
+			else if (this.direction === DIRECTION.DOWN) this.y += this.speed;
 		}
+
+		this.checkPaddle();
 	}
 
 	render() {
