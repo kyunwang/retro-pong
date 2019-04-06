@@ -33,10 +33,12 @@ export const addCanvasResize = (
 			const width = window.innerWidth;
 			const height = window.innerHeight;
 
-			canvas.width = fieldW;
-			canvas.height = fieldH;
-			canvas.fillStyle = '#ff00ff';
+			canvas.width = fieldW * 2;
+			canvas.height = fieldH * 2;
+			canvas.style.width = `${canvas.width / 2}px`;
+			canvas.style.height = `${canvas.height / 2}px`;
 
+			canvas.fillStyle = '#ff00ff';
 			ctx.fillRect(0, 0, width, height);
 
 			cb(); // Should update positions in case orientation has changed
@@ -47,15 +49,15 @@ export const addCanvasResize = (
 export const getFieldSize = () => {
 	const { windowH, windowW } = getWindowSize();
 	const aspectRatio: number = windowW / windowH;
-	let fieldW: number = windowW;
-	let fieldH: number = windowH;
+	let fieldW: number = windowW * 2;
+	let fieldH: number = windowH * 2;
 	let orientation: string;
 
 	if (aspectRatio > 1) {
-		fieldW = windowH * (2 / 3);
+		fieldW = windowH * (2 / 3) * 2;
 		orientation = 'vertical';
 	} else {
-		fieldH = windowW * (2 / 3);
+		fieldH = windowW * (2 / 3) * 2;
 		orientation = 'horizontal';
 	}
 
@@ -86,9 +88,9 @@ export const getBallSettings = () => {
 	const { fieldH, fieldW } = getFieldSize();
 
 	const ballSettings = {
-		size: 5,
-		yPos: fieldH * 0.5 - 2.5,
-		xPos: fieldW * 0.5 - 5 / 2,
+		size: 10,
+		yPos: fieldH * 0.5 - 5,
+		xPos: fieldW * 0.5 - 5,
 	};
 
 	return ballSettings;
