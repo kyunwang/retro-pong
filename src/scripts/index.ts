@@ -39,6 +39,8 @@ class Pong {
 
 		this.render();
 
+		this.addListeners();
+
 		addCanvasResize(this.canvas, this.ctx);
 	}
 
@@ -70,30 +72,40 @@ class Pong {
 			ctx: this.ctx,
 			paddleSettings,
 			primary: false,
+			isPlayer: this.isVersus,
 		});
 		this.paddle2.render();
+	}
 
+	addListeners() {
 		document.addEventListener('keydown', event => {
 			const { key } = event;
-			console.log(key);
+
 			if (orientation === 'vertical') {
-				if (key === 'ArrowLeft') {
-					this.paddle1.direction = DIRECTION.LEFT;
-				}
-				if (key === 'ArrowRight') {
-					this.paddle1.direction = DIRECTION.RIGHT;
+				if (key === 'a') this.paddle1.direction = DIRECTION.LEFT;
+				if (key === 'd') this.paddle1.direction = DIRECTION.RIGHT;
+
+				if (this.isVersus) {
+					if (key === 'ArrowLeft') this.paddle2.direction = DIRECTION.LEFT;
+					if (key === 'ArrowRight') this.paddle2.direction = DIRECTION.RIGHT;
 				}
 			} else {
-				if (key === 'ArrowUp') {
-					this.paddle1.direction = DIRECTION.UP;
-				} else if (key === 'ArrowDown') {
-					this.paddle1.direction = DIRECTION.DOWN;
+				if (key === 'w') this.paddle1.direction = DIRECTION.UP;
+				if (key === 's') this.paddle1.direction = DIRECTION.DOWN;
+
+				if (this.isVersus) {
+					if (key === 'ArrowUp') this.paddle2.direction = DIRECTION.UP;
+					if (key === 'ArrowDown') this.paddle2.direction = DIRECTION.DOWN;
 				}
 			}
 		});
 
 		document.addEventListener('keyup', () => {
 			this.paddle1.direction = DIRECTION.IDLE;
+
+			if (this.isVersus) {
+				this.paddle2.direction = DIRECTION.IDLE;
+			}
 		});
 	}
 
