@@ -114,12 +114,16 @@ class Ball {
 
 		// Check boundary collision left & right
 		if (orientation === 'vertical') {
+			if (this.x <= 0) this.directionX = DIRECTION.RIGHT;
+			if (this.x >= this.canvas.width) this.directionX = DIRECTION.LEFT;
+			// if (this.y <= 0) console.log(1);
+			// if (this.y - this.height >= this.canvas.height) console.log(2);
 		} else {
+			// if (this.x <= 0)
+			// if (this.x - this.width >= this.canvas.width)
+			if (this.y <= 0) this.directionY = DIRECTION.DOWN;
+			if (this.y >= this.canvas.height) this.directionY = DIRECTION.UP;
 		}
-		if (this.x <= 0) this.directionX = DIRECTION.RIGHT;
-		if (this.x >= this.canvas.width) this.directionX = DIRECTION.LEFT;
-		// if (this.y <= 0) console.log(1);
-		// if (this.y - this.height >= this.canvas.height) console.log(2);
 	}
 
 	reset() {}
@@ -131,7 +135,7 @@ class Ball {
 
 	init() {
 		this.directionX = DIRECTION.LEFT;
-		// this.directionY = DIRECTION.DOWN;
+		this.directionY = DIRECTION.DOWN;
 		this.render();
 	}
 }
