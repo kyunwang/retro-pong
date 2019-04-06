@@ -12,8 +12,6 @@ class Ball {
 	private y: number;
 	private width: number;
 	private height: number;
-	private xSpeed: number;
-	private ySpeed: number;
 	private speed: number;
 	private paddle1;
 	private paddle2;
@@ -27,10 +25,8 @@ class Ball {
 		this.y = yPos;
 		this.width = size;
 		this.height = size;
-		this.xSpeed = 0;
-		this.ySpeed = 3;
 		this.directionX = DIRECTION.IDLE;
-		this.directionY = DIRECTION.UP;
+		this.directionY = DIRECTION.IDLE;
 		this.speed = 10;
 
 		this.paddle1 = paddle1;
@@ -57,15 +53,19 @@ class Ball {
 					this.directionY = DIRECTION.UP;
 				}
 			}
-
-			// Check scoring and reset?
-
-			// Check boundary collision left & right
-			if (this.x <= 0) this.directionX = DIRECTION.RIGHT;
-			if (this.x >= this.canvas.width) this.directionX = DIRECTION.LEFT;
-			// if (this.y <= 0) console.log(1);
-			// if (this.y - this.height >= this.canvas.height) console.log(2);
 		} else {
+			if (
+				this.x <= this.paddle1.x + this.paddle1.width &&
+				this.x + this.width >= this.paddle1.x
+			) {
+				if (
+					this.y <= this.paddle1.y + this.paddle1.height &&
+					this.y + this.height >= this.paddle1.y
+				) {
+					this.x = this.paddle1.x + this.paddle1.width;
+					this.directionX = DIRECTION.RIGHT;
+				}
+			}
 		}
 	}
 
@@ -84,6 +84,18 @@ class Ball {
 				}
 			}
 		} else {
+			if (
+				this.x + this.width >= this.paddle2.x &&
+				this.x <= this.paddle2.x + this.paddle2.width
+			) {
+				if (
+					this.y <= this.paddle2.y + this.paddle2.height &&
+					this.y + this.height >= this.paddle2.y
+				) {
+					this.x = this.paddle2.x - this.paddle2.width;
+					this.directionX = DIRECTION.LEFT;
+				}
+			}
 		}
 	}
 
@@ -97,6 +109,17 @@ class Ball {
 
 		this.checkPaddle1();
 		this.checkPaddle2();
+
+		// Check scoring and reset?
+
+		// Check boundary collision left & right
+		if (orientation === 'vertical') {
+		} else {
+		}
+		if (this.x <= 0) this.directionX = DIRECTION.RIGHT;
+		if (this.x >= this.canvas.width) this.directionX = DIRECTION.LEFT;
+		// if (this.y <= 0) console.log(1);
+		// if (this.y - this.height >= this.canvas.height) console.log(2);
 	}
 
 	reset() {}
@@ -107,8 +130,8 @@ class Ball {
 	}
 
 	init() {
-		this.directionX = DIRECTION.RIGHT;
-		this.directionY = DIRECTION.DOWN;
+		this.directionX = DIRECTION.LEFT;
+		// this.directionY = DIRECTION.DOWN;
 		this.render();
 	}
 }

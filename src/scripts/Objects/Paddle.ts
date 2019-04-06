@@ -5,14 +5,15 @@ const { fieldW, fieldH, orientation } = getFieldSettings();
 class Paddle {
 	public ctx;
 	public direction: number;
+	public isPlayer: boolean;
+
 	public x: number;
 	public y: number;
+	public width: number;
+	public height: number;
+	public speed: number;
 
-	private width: number;
-	private height: number;
-	private speed: number;
-
-	constructor(ctx, paddleSettings, primary = true) {
+	constructor({ ctx, paddleSettings, primary = true, isPlayer = false }) {
 		const { paddleW, paddleH, yDiff, xDiff } = paddleSettings;
 
 		this.ctx = ctx;
@@ -21,6 +22,7 @@ class Paddle {
 		this.width = paddleW;
 		this.height = paddleH;
 		this.speed = 9;
+		this.isPlayer = isPlayer;
 
 		if (orientation === 'vertical') {
 			this.y = primary ? fieldH - yDiff : yDiff - paddleH;

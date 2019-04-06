@@ -56,9 +56,17 @@ class Pong {
 
 	createPaddles() {
 		// Create and initial render
-		this.paddle1 = new Paddle(this.ctx, paddleSettings);
+		this.paddle1 = new Paddle({
+			ctx: this.ctx,
+			paddleSettings,
+			isPlayer: true,
+		});
 		this.paddle1.render();
-		this.paddle2 = new Paddle(this.ctx, paddleSettings, false);
+		this.paddle2 = new Paddle({
+			ctx: this.ctx,
+			paddleSettings,
+			primary: false,
+		});
 		this.paddle2.render();
 
 		document.addEventListener('keydown', event => {
