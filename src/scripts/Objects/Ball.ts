@@ -16,7 +16,7 @@ class Ball {
 	private paddle1;
 	private paddle2;
 
-	constructor(ctx, canvas, ballSettings, paddle1, paddle2) {
+	constructor({ ctx, canvas, ballSettings, paddle1, paddle2 }) {
 		const { size, yPos, xPos } = ballSettings;
 
 		this.ctx = ctx;

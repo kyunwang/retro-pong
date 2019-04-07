@@ -44,41 +44,6 @@ class Pong {
 		addCanvasResize(this.canvas, this.ctx);
 	}
 
-	createCanvas() {
-		const canvas = document.createElement('canvas');
-		const context = canvas.getContext('2d');
-
-		canvas.width = fieldW;
-		canvas.height = fieldH;
-
-		canvas.style.width = `${canvas.width / 2}px`;
-		canvas.style.height = `${canvas.height / 2}px`;
-
-		document.body.append(canvas);
-
-		this.canvas = canvas;
-		this.ctx = context;
-	}
-
-	createPaddles() {
-		// Create and initial render
-		this.paddle1 = new Paddle({
-			ctx: this.ctx,
-			canvas: this.canvas,
-			paddleSettings,
-			isPlayer: true,
-		});
-		this.paddle1.render();
-		this.paddle2 = new Paddle({
-			ctx: this.ctx,
-			canvas: this.canvas,
-			paddleSettings,
-			primary: false,
-			isPlayer: this.isVersus,
-		});
-		this.paddle2.render();
-	}
-
 	addListeners() {
 		document.addEventListener('keydown', event => {
 			const { key } = event;
@@ -112,14 +77,72 @@ class Pong {
 		});
 	}
 
+	autoMove() {
+		const changePos = this.paddle2.speed;
+		if (orientation === 'vertical') {
+			const ballPosX = this.ball.x - this.paddle2.width / 2;
+			if (this.ball.directionY === DIRECTION.UP) {
+				if (this.paddle2.x >= ballPosX) this.paddle2.x -= changePos;
+				else if (this.paddle2.x <= ballPosX) this.paddle2.x += changePos;
+			}
+
+			// if (this.paddle1.x >= ballPosX) this.paddle1.x -= changePos;
+			// else if (this.paddle1.x <= ballPosX) this.paddle1.x += changePos;
+		} else {
+			const ballPosY = this.ball.y - this.paddle2.height / 2;
+			if (this.ball.directionX === DIRECTION.RIGHT) {
+				if (this.paddle2.y >= ballPosY) this.paddle2.y -= changePos;
+				else if (this.paddle2.y <= ballPosY) this.paddle2.y += changePos;
+			}
+
+			// if (this.paddle1.y >= ballPosY) this.paddle1.y -= changePos;
+			// else if (this.paddle1.y <= ballPosY) this.paddle1.y += changePos;
+		}
+	}
+
 	createBall() {
-		this.ball = new Ball(
-			this.ctx,
-			this.canvas,
+		this.ball = new Ball({
+			ctx: this.ctx,
+			canvas: this.canvas,
 			ballSettings,
-			this.paddle1,
-			this.paddle2
-		);
+			paddle1: this.paddle1,
+			paddle2: this.paddle2,
+		});
+	}
+
+	createCanvas() {
+		const canvas = document.createElement('canvas');
+		const context = canvas.getContext('2d');
+
+		canvas.width = fieldW;
+		canvas.height = fieldH;
+
+		canvas.style.width = `${canvas.width / 2}px`;
+		canvas.style.height = `${canvas.height / 2}px`;
+
+		document.body.append(canvas);
+
+		this.canvas = canvas;
+		this.ctx = context;
+	}
+
+	createPaddles() {
+		// Create and initial render
+		this.paddle1 = new Paddle({
+			ball: this.ball,
+			ctx: this.ctx,
+			canvas: this.canvas,
+			paddleSettings,
+		});
+		this.paddle1.render();
+		this.paddle2 = new Paddle({
+			ball: this.ball,
+			ctx: this.ctx,
+			canvas: this.canvas,
+			paddleSettings,
+			primary: false,
+		});
+		this.paddle2.render();
 	}
 
 	drawField() {
@@ -140,6 +163,10 @@ class Pong {
 		this.paddle1.update();
 		this.paddle2.update();
 		this.ball.update();
+
+		if (!this.isVersus) {
+			this.autoMove();
+		}
 	}
 
 	render() {
