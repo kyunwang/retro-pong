@@ -44,41 +44,6 @@ class Pong {
 		addCanvasResize(this.canvas, this.ctx);
 	}
 
-	createCanvas() {
-		const canvas = document.createElement('canvas');
-		const context = canvas.getContext('2d');
-
-		canvas.width = fieldW;
-		canvas.height = fieldH;
-
-		canvas.style.width = `${canvas.width / 2}px`;
-		canvas.style.height = `${canvas.height / 2}px`;
-
-		document.body.append(canvas);
-
-		this.canvas = canvas;
-		this.ctx = context;
-	}
-
-	createPaddles() {
-		// Create and initial render
-		this.paddle1 = new Paddle({
-			ctx: this.ctx,
-			canvas: this.canvas,
-			paddleSettings,
-			isPlayer: true,
-		});
-		this.paddle1.render();
-		this.paddle2 = new Paddle({
-			ctx: this.ctx,
-			canvas: this.canvas,
-			paddleSettings,
-			primary: false,
-			isPlayer: this.isVersus,
-		});
-		this.paddle2.render();
-	}
-
 	addListeners() {
 		document.addEventListener('keydown', event => {
 			const { key } = event;
@@ -113,13 +78,48 @@ class Pong {
 	}
 
 	createBall() {
-		this.ball = new Ball(
-			this.ctx,
-			this.canvas,
+		this.ball = new Ball({
+			ctx: this.ctx,
+			canvas: this.canvas,
 			ballSettings,
-			this.paddle1,
-			this.paddle2
-		);
+			paddle1: this.paddle1,
+			paddle2: this.paddle2,
+		});
+	}
+
+	createCanvas() {
+		const canvas = document.createElement('canvas');
+		const context = canvas.getContext('2d');
+
+		canvas.width = fieldW;
+		canvas.height = fieldH;
+
+		canvas.style.width = `${canvas.width / 2}px`;
+		canvas.style.height = `${canvas.height / 2}px`;
+
+		document.body.append(canvas);
+
+		this.canvas = canvas;
+		this.ctx = context;
+	}
+
+	createPaddles() {
+		// Create and initial render
+		this.paddle1 = new Paddle({
+			ctx: this.ctx,
+			canvas: this.canvas,
+			paddleSettings,
+			isPlayer: true,
+		});
+		this.paddle1.render();
+		this.paddle2 = new Paddle({
+			ctx: this.ctx,
+			canvas: this.canvas,
+			paddleSettings,
+			primary: false,
+			isPlayer: this.isVersus,
+		});
+		this.paddle2.render();
 	}
 
 	drawField() {
