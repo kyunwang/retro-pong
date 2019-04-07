@@ -6,7 +6,6 @@ class Paddle {
 	ctx: CanvasRenderingContext2D;
 	canvas: HTMLCanvasElement;
 	direction: number;
-	isPlayer: boolean;
 
 	x: number;
 	y: number;
@@ -14,13 +13,7 @@ class Paddle {
 	height: number;
 	speed: number;
 
-	constructor({
-		ctx,
-		canvas,
-		paddleSettings,
-		primary = true,
-		isPlayer = false,
-	}) {
+	constructor({ ball, ctx, canvas, paddleSettings, primary = true }) {
 		const { paddleW, paddleH, yDiff, xDiff } = paddleSettings;
 
 		this.ctx = ctx;
@@ -30,7 +23,6 @@ class Paddle {
 		this.width = paddleW;
 		this.height = paddleH;
 		this.speed = 9;
-		this.isPlayer = isPlayer;
 
 		if (orientation === 'vertical') {
 			this.y = primary ? fieldH - yDiff : yDiff - paddleH;

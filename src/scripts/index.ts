@@ -77,6 +77,29 @@ class Pong {
 		});
 	}
 
+	autoMove() {
+		const changePos = this.paddle2.speed;
+		if (orientation === 'vertical') {
+			const ballPosX = this.ball.x - this.paddle2.width / 2;
+			if (this.ball.directionY === DIRECTION.UP) {
+				if (this.paddle2.x >= ballPosX) this.paddle2.x -= changePos;
+				else if (this.paddle2.x <= ballPosX) this.paddle2.x += changePos;
+			}
+
+			// if (this.paddle1.x >= ballPosX) this.paddle1.x -= changePos;
+			// else if (this.paddle1.x <= ballPosX) this.paddle1.x += changePos;
+		} else {
+			const ballPosY = this.ball.y - this.paddle2.height / 2;
+			if (this.ball.directionX === DIRECTION.RIGHT) {
+				if (this.paddle2.y >= ballPosY) this.paddle2.y -= changePos;
+				else if (this.paddle2.y <= ballPosY) this.paddle2.y += changePos;
+			}
+
+			// if (this.paddle1.y >= ballPosY) this.paddle1.y -= changePos;
+			// else if (this.paddle1.y <= ballPosY) this.paddle1.y += changePos;
+		}
+	}
+
 	createBall() {
 		this.ball = new Ball({
 			ctx: this.ctx,
@@ -106,18 +129,18 @@ class Pong {
 	createPaddles() {
 		// Create and initial render
 		this.paddle1 = new Paddle({
+			ball: this.ball,
 			ctx: this.ctx,
 			canvas: this.canvas,
 			paddleSettings,
-			isPlayer: true,
 		});
 		this.paddle1.render();
 		this.paddle2 = new Paddle({
+			ball: this.ball,
 			ctx: this.ctx,
 			canvas: this.canvas,
 			paddleSettings,
 			primary: false,
-			isPlayer: this.isVersus,
 		});
 		this.paddle2.render();
 	}
@@ -140,6 +163,10 @@ class Pong {
 		this.paddle1.update();
 		this.paddle2.update();
 		this.ball.update();
+
+		if (!this.isVersus) {
+			this.autoMove();
+		}
 	}
 
 	render() {
