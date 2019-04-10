@@ -1,6 +1,7 @@
 import { DIRECTION } from '../helpers/consts';
-import { getFieldSettings } from '../helpers/utils';
+import { getFieldSettings, getBallSettings } from '../helpers/utils';
 const { orientation } = getFieldSettings();
+const { size, yPos, xPos } = getBallSettings();
 
 class Ball {
 	ctx;
@@ -16,9 +17,7 @@ class Ball {
 	private paddle1;
 	private paddle2;
 
-	constructor({ ctx, canvas, ballSettings, paddle1, paddle2 }) {
-		const { size, yPos, xPos } = ballSettings;
-
+	constructor({ ctx, canvas, paddle1, paddle2 }) {
 		this.ctx = ctx;
 		this.canvas = canvas;
 		this.x = xPos;

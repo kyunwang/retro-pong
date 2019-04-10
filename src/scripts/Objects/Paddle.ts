@@ -1,6 +1,7 @@
-import { getFieldSettings } from '../helpers/utils';
+import { getFieldSettings, getPaddleSettings } from '../helpers/utils';
 import { DIRECTION } from '../helpers/consts';
 const { fieldW, fieldH, orientation } = getFieldSettings();
+const { paddleW, paddleH, yDiff, xDiff } = getPaddleSettings();
 
 class Paddle {
 	ctx: CanvasRenderingContext2D;
@@ -13,9 +14,7 @@ class Paddle {
 	height: number;
 	speed: number;
 
-	constructor({ ball, ctx, canvas, paddleSettings, primary = true }) {
-		const { paddleW, paddleH, yDiff, xDiff } = paddleSettings;
-
+	constructor({ ball, ctx, canvas, primary = true }) {
 		this.ctx = ctx;
 		this.canvas = canvas;
 		this.x = xDiff;

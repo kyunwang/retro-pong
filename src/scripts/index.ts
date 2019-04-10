@@ -104,7 +104,6 @@ class Pong {
 		this.ball = new Ball({
 			ctx: this.ctx,
 			canvas: this.canvas,
-			ballSettings,
 			paddle1: this.paddle1,
 			paddle2: this.paddle2,
 		});
@@ -132,14 +131,12 @@ class Pong {
 			ball: this.ball,
 			ctx: this.ctx,
 			canvas: this.canvas,
-			paddleSettings,
 		});
 		this.paddle1.render();
 		this.paddle2 = new Paddle({
 			ball: this.ball,
 			ctx: this.ctx,
 			canvas: this.canvas,
-			paddleSettings,
 			primary: false,
 		});
 		this.paddle2.render();
