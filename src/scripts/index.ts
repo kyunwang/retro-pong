@@ -15,10 +15,11 @@ const ballSettings = getBallSettings();
 
 class Pong {
 	canvas: HTMLCanvasElement;
-	ctx;
+	ctx: CanvasRenderingContext2D;
 	paddle1;
 	paddle2;
 	ball;
+	isPlaying: boolean;
 
 	isVersus: boolean;
 
@@ -28,6 +29,9 @@ class Pong {
 		this.render = this.render.bind(this);
 
 		this.isVersus = isVersus;
+		this.isPlaying = false;
+
+		this.reset = this.reset.bind(this);
 	}
 
 	init() {
@@ -78,7 +82,7 @@ class Pong {
 	}
 
 	autoMove() {
-		const changePos = this.paddle2.speed;
+		const changePos = this.paddle2.speed / 2;
 		if (orientation === 'vertical') {
 			const ballPosX = this.ball.x - this.paddle2.width / 2;
 			if (this.ball.directionY === DIRECTION.UP) {
@@ -106,6 +110,7 @@ class Pong {
 			canvas: this.canvas,
 			paddle1: this.paddle1,
 			paddle2: this.paddle2,
+			reset: this.reset,
 		});
 	}
 
@@ -154,6 +159,13 @@ class Pong {
 		this.paddle1.render();
 		this.paddle2.render();
 		this.ball.render();
+	}
+
+	reset() {
+		this.timeout = setTimeout(() => {
+			this.ball.reset();
+			clearTimeout(this.timeout);
+		}, 300);
 	}
 
 	update() {

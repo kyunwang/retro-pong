@@ -4,8 +4,8 @@ const { fieldW, fieldH, orientation } = getFieldSettings();
 const { paddleW, paddleH, yDiff, xDiff } = getPaddleSettings();
 
 class Paddle {
-	ctx: CanvasRenderingContext2D;
 	canvas: HTMLCanvasElement;
+	ctx: CanvasRenderingContext2D;
 	direction: number;
 
 	x: number;

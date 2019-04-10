@@ -4,8 +4,8 @@ const { orientation } = getFieldSettings();
 const { size, yPos, xPos } = getBallSettings();
 
 class Ball {
-	ctx;
-	canvas;
+	canvas: HTMLCanvasElement;
+	ctx: CanvasRenderingContext2D;
 	directionX: number;
 	directionY: number;
 
@@ -17,7 +17,9 @@ class Ball {
 	private paddle1;
 	private paddle2;
 
-	constructor({ ctx, canvas, paddle1, paddle2 }) {
+	resetGame: () => void;
+
+	constructor({ ctx, canvas, reset, paddle1, paddle2 }) {
 		this.ctx = ctx;
 		this.canvas = canvas;
 		this.x = xPos;
@@ -28,6 +30,7 @@ class Ball {
 		this.directionY = DIRECTION.IDLE;
 		this.speed = 10;
 
+		this.resetGame = reset;
 		this.paddle1 = paddle1;
 		this.paddle2 = paddle2;
 
@@ -115,17 +118,21 @@ class Ball {
 		if (orientation === 'vertical') {
 			if (this.x <= 0) this.directionX = DIRECTION.RIGHT;
 			if (this.x >= this.canvas.width) this.directionX = DIRECTION.LEFT;
-			// if (this.y <= 0) console.log(1);
-			// if (this.y - this.height >= this.canvas.height) console.log(2);
+			if (this.y <= 0) this.resetGame();
+			if (this.y - this.height >= this.canvas.height) this.resetGame();
 		} else {
-			// if (this.x <= 0)
-			// if (this.x - this.width >= this.canvas.width)
+			if (this.x <= 0) this.resetGame();
+			if (this.x - this.width >= this.canvas.width) this.resetGame();
 			if (this.y <= 0) this.directionY = DIRECTION.DOWN;
 			if (this.y >= this.canvas.height) this.directionY = DIRECTION.UP;
 		}
 	}
 
-	reset() {}
+	reset() {
+		this.x = xPos;
+		this.y = yPos;
+		this.speed = 10;
+	}
 
 	render() {
 		this.ctx.fillStyle = '#fff';
@@ -133,7 +140,7 @@ class Ball {
 	}
 
 	init() {
-		this.directionX = DIRECTION.LEFT;
+		this.directionX = DIRECTION.RIGHT;
 		this.directionY = DIRECTION.DOWN;
 		this.render();
 	}
