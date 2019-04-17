@@ -1,10 +1,11 @@
-import { getFieldSettings } from '../helpers/utils';
-import { DIRECTION } from '../helpers/consts';
+import { getFieldSettings, getPaddleSettings } from '../helpers/utils';
+import { DIRECTION, ORIENTATION } from '../helpers/consts';
 const { fieldW, fieldH, orientation } = getFieldSettings();
+const { paddleW, paddleH, yDiff, xDiff } = getPaddleSettings();
 
 class Paddle {
-	ctx: CanvasRenderingContext2D;
 	canvas: HTMLCanvasElement;
+	ctx: CanvasRenderingContext2D;
 	direction: number;
 
 	x: number;
@@ -13,9 +14,7 @@ class Paddle {
 	height: number;
 	speed: number;
 
-	constructor({ ball, ctx, canvas, paddleSettings, primary = true }) {
-		const { paddleW, paddleH, yDiff, xDiff } = paddleSettings;
-
+	constructor({ ball, ctx, canvas, primary = true }) {
 		this.ctx = ctx;
 		this.canvas = canvas;
 		this.x = xDiff;
@@ -24,7 +23,7 @@ class Paddle {
 		this.height = paddleH;
 		this.speed = 9;
 
-		if (orientation === 'vertical') {
+		if (orientation === ORIENTATION.VERTICAL) {
 			this.y = primary ? fieldH - yDiff : yDiff - paddleH;
 		} else {
 			this.x = primary ? xDiff - paddleW : fieldW - xDiff;
@@ -43,7 +42,7 @@ class Paddle {
 	}
 
 	update() {
-		if (orientation === 'vertical') {
+		if (orientation === ORIENTATION.VERTICAL) {
 			if (this.direction === DIRECTION.LEFT) this.x -= this.speed;
 			else if (this.direction === DIRECTION.RIGHT) this.x += this.speed;
 		} else {
