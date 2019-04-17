@@ -7,7 +7,7 @@ import {
 } from './helpers/utils';
 import Ball from './Objects/Ball';
 import Paddle from './Objects/Paddle';
-import { DIRECTION, ORIENTATION } from './helpers/consts';
+import { DIRECTION, ORIENTATION, GAME } from './helpers/consts';
 
 const { fieldW, fieldH, orientation } = getFieldSettings();
 const paddleSettings = getPaddleSettings();
@@ -20,8 +20,10 @@ class Pong {
 	paddle2;
 	ball;
 	isPlaying: boolean;
-
 	isVersus: boolean;
+
+	scoreOne: number;
+	scoreTwo: number;
 
 	constructor(isVersus) {
 		this.canvas;
@@ -30,6 +32,9 @@ class Pong {
 
 		this.isVersus = isVersus;
 		this.isPlaying = false;
+
+		this.scoreOne = 0;
+		this.scoreTwo = 0;
 
 		this.reset = this.reset.bind(this);
 	}
@@ -152,20 +157,38 @@ class Pong {
 		this.ctx.fillRect(0, 0, fieldW, fieldH);
 	}
 
+	drawScores() {
+		this.ctx.font = '500 64px Courier New';
+		this.ctx.textAlign = 'center';
+		this.ctx.fillStyle = '#ffffff';
+
+		// this.ctx.fillText('Hello world', 10, 50);
+		if (orientation === ORIENTATION.VERTICAL) {
+			this.ctx.fillText(this.scoreOne, 40, fieldH * 0.4);
+			this.ctx.fillText(this.scoreTwo, 40, fieldH * 0.6);
+		} else {
+			this.ctx.fillText(this.scoreOne, fieldW * 0.3, 60);
+			this.ctx.fillText(this.scoreTwo, fieldW - fieldW * 0.3, 60);
+		}
+	}
+
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.drawField();
+		this.drawScores();
 
 		this.paddle1.render();
 		this.paddle2.render();
 		this.ball.render();
 	}
 
-	reset() {
-		this.timeout = setTimeout(() => {
-			this.ball.reset();
-			clearTimeout(this.timeout);
-		}, 300);
+	reset(sideScored: string) {
+		sideScored === GAME.PADDLE_ONE ? this.scoreOne++ : this.scoreTwo++;
+
+		this.ball.reset();
+		// this.timeout = setTimeout(() => {
+		// clearTimeout(this.timeout);
+		// }, 300);
 	}
 
 	update() {

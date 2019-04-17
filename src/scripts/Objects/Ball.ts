@@ -1,4 +1,4 @@
-import { DIRECTION, ORIENTATION } from '../helpers/consts';
+import { DIRECTION, ORIENTATION, GAME } from '../helpers/consts';
 import { getFieldSettings, getBallSettings } from '../helpers/utils';
 const { orientation } = getFieldSettings();
 const { size, yPos, xPos } = getBallSettings();
@@ -118,11 +118,13 @@ class Ball {
 		if (orientation === ORIENTATION.VERTICAL) {
 			if (this.x <= 0) this.directionX = DIRECTION.RIGHT;
 			if (this.x >= this.canvas.width) this.directionX = DIRECTION.LEFT;
-			if (this.y <= 0) this.resetGame();
-			if (this.y - this.height >= this.canvas.height) this.resetGame();
+			if (this.y <= 0) this.resetGame(GAME.PADDLE_TWO);
+			if (this.y - this.height >= this.canvas.height)
+				this.resetGame(GAME.PADDLE_ONE);
 		} else {
-			if (this.x <= 0) this.resetGame();
-			if (this.x - this.width >= this.canvas.width) this.resetGame();
+			if (this.x <= 0) this.resetGame(GAME.PADDLE_TWO);
+			if (this.x - this.width >= this.canvas.width)
+				this.resetGame(GAME.PADDLE_ONE);
 			if (this.y <= 0) this.directionY = DIRECTION.DOWN;
 			if (this.y >= this.canvas.height) this.directionY = DIRECTION.UP;
 		}
