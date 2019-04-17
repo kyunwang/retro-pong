@@ -1,5 +1,5 @@
 import { getFieldSettings, getPaddleSettings } from '../helpers/utils';
-import { DIRECTION } from '../helpers/consts';
+import { DIRECTION, ORIENTATION } from '../helpers/consts';
 const { fieldW, fieldH, orientation } = getFieldSettings();
 const { paddleW, paddleH, yDiff, xDiff } = getPaddleSettings();
 
@@ -23,7 +23,7 @@ class Paddle {
 		this.height = paddleH;
 		this.speed = 9;
 
-		if (orientation === 'vertical') {
+		if (orientation === ORIENTATION.VERTICAL) {
 			this.y = primary ? fieldH - yDiff : yDiff - paddleH;
 		} else {
 			this.x = primary ? xDiff - paddleW : fieldW - xDiff;
@@ -42,7 +42,7 @@ class Paddle {
 	}
 
 	update() {
-		if (orientation === 'vertical') {
+		if (orientation === ORIENTATION.VERTICAL) {
 			if (this.direction === DIRECTION.LEFT) this.x -= this.speed;
 			else if (this.direction === DIRECTION.RIGHT) this.x += this.speed;
 		} else {

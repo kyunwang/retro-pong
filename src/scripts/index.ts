@@ -7,7 +7,7 @@ import {
 } from './helpers/utils';
 import Ball from './Objects/Ball';
 import Paddle from './Objects/Paddle';
-import { DIRECTION } from './helpers/consts';
+import { DIRECTION, ORIENTATION } from './helpers/consts';
 
 const { fieldW, fieldH, orientation } = getFieldSettings();
 const paddleSettings = getPaddleSettings();
@@ -52,7 +52,7 @@ class Pong {
 		document.addEventListener('keydown', event => {
 			const { key } = event;
 
-			if (orientation === 'vertical') {
+			if (orientation === ORIENTATION.VERTICAL) {
 				if (key === 'a') this.paddle1.direction = DIRECTION.LEFT;
 				else if (key === 'd') this.paddle1.direction = DIRECTION.RIGHT;
 
@@ -83,7 +83,7 @@ class Pong {
 
 	autoMove() {
 		const changePos = this.paddle2.speed / 2;
-		if (orientation === 'vertical') {
+		if (orientation === ORIENTATION.VERTICAL) {
 			const ballPosX = this.ball.x - this.paddle2.width / 2;
 			if (this.ball.directionY === DIRECTION.UP) {
 				if (this.paddle2.x >= ballPosX) this.paddle2.x -= changePos;

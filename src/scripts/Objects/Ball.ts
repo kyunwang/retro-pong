@@ -1,4 +1,4 @@
-import { DIRECTION } from '../helpers/consts';
+import { DIRECTION, ORIENTATION } from '../helpers/consts';
 import { getFieldSettings, getBallSettings } from '../helpers/utils';
 const { orientation } = getFieldSettings();
 const { size, yPos, xPos } = getBallSettings();
@@ -39,7 +39,7 @@ class Ball {
 	}
 
 	checkPaddle1() {
-		if (orientation === 'vertical') {
+		if (orientation === ORIENTATION.VERTICAL) {
 			// Check paddle1 collision
 			// If collide with top of the paddle and is not beyond it
 			if (
@@ -72,7 +72,7 @@ class Ball {
 	}
 
 	checkPaddle2() {
-		if (orientation === 'vertical') {
+		if (orientation === ORIENTATION.VERTICAL) {
 			if (
 				this.y <= this.paddle2.y + this.paddle2.height &&
 				this.y + this.height >= this.paddle2.y
@@ -115,7 +115,7 @@ class Ball {
 		// Check scoring and reset?
 
 		// Check boundary collision left & right
-		if (orientation === 'vertical') {
+		if (orientation === ORIENTATION.VERTICAL) {
 			if (this.x <= 0) this.directionX = DIRECTION.RIGHT;
 			if (this.x >= this.canvas.width) this.directionX = DIRECTION.LEFT;
 			if (this.y <= 0) this.resetGame();
