@@ -1,3 +1,5 @@
+import { ORIENTATION } from './consts';
+
 const debounce = cb => {
 	let timer;
 	return event => {
@@ -55,10 +57,10 @@ export const getFieldSize = () => {
 
 	if (aspectRatio > 1) {
 		fieldW = windowH * (2 / 3) * 2;
-		orientation = 'vertical';
+		orientation = ORIENTATION.VERTICAL;
 	} else {
 		fieldH = windowW * (2 / 3) * 2;
-		orientation = 'horizontal';
+		orientation = ORIENTATION.HORIZONTAL;
 	}
 
 	return { fieldW, fieldH, orientation };
@@ -67,7 +69,7 @@ export const getFieldSize = () => {
 export const getPaddleSettings = () => {
 	const { fieldH, fieldW, orientation } = getFieldSize();
 
-	if (orientation === 'vertical') {
+	if (orientation === ORIENTATION.VERTICAL) {
 		return {
 			paddleW: 50,
 			paddleH: 10,

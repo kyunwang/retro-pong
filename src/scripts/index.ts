@@ -7,7 +7,7 @@ import {
 } from './helpers/utils';
 import Ball from './Objects/Ball';
 import Paddle from './Objects/Paddle';
-import { DIRECTION } from './helpers/consts';
+import { DIRECTION, ORIENTATION, GAME } from './helpers/consts';
 
 const { fieldW, fieldH, orientation } = getFieldSettings();
 const paddleSettings = getPaddleSettings();
@@ -15,12 +15,15 @@ const ballSettings = getBallSettings();
 
 class Pong {
 	canvas: HTMLCanvasElement;
-	ctx;
+	ctx: CanvasRenderingContext2D;
 	paddle1;
 	paddle2;
 	ball;
-
+	isPlaying: boolean;
 	isVersus: boolean;
+
+	scoreOne: number;
+	scoreTwo: number;
 
 	constructor(isVersus) {
 		this.canvas;
@@ -28,6 +31,12 @@ class Pong {
 		this.render = this.render.bind(this);
 
 		this.isVersus = isVersus;
+		this.isPlaying = false;
+
+		this.scoreOne = 0;
+		this.scoreTwo = 0;
+
+		this.reset = this.reset.bind(this);
 	}
 
 	init() {
@@ -48,7 +57,7 @@ class Pong {
 		document.addEventListener('keydown', event => {
 			const { key } = event;
 
-			if (orientation === 'vertical') {
+			if (orientation === ORIENTATION.VERTICAL) {
 				if (key === 'a') this.paddle1.direction = DIRECTION.LEFT;
 				else if (key === 'd') this.paddle1.direction = DIRECTION.RIGHT;
 
@@ -78,8 +87,8 @@ class Pong {
 	}
 
 	autoMove() {
-		const changePos = this.paddle2.speed;
-		if (orientation === 'vertical') {
+		const changePos = this.paddle2.speed / 2;
+		if (orientation === ORIENTATION.VERTICAL) {
 			const ballPosX = this.ball.x - this.paddle2.width / 2;
 			if (this.ball.directionY === DIRECTION.UP) {
 				if (this.paddle2.x >= ballPosX) this.paddle2.x -= changePos;
@@ -104,9 +113,9 @@ class Pong {
 		this.ball = new Ball({
 			ctx: this.ctx,
 			canvas: this.canvas,
-			ballSettings,
 			paddle1: this.paddle1,
 			paddle2: this.paddle2,
+			reset: this.reset,
 		});
 	}
 
@@ -132,14 +141,12 @@ class Pong {
 			ball: this.ball,
 			ctx: this.ctx,
 			canvas: this.canvas,
-			paddleSettings,
 		});
 		this.paddle1.render();
 		this.paddle2 = new Paddle({
 			ball: this.ball,
 			ctx: this.ctx,
 			canvas: this.canvas,
-			paddleSettings,
 			primary: false,
 		});
 		this.paddle2.render();
@@ -150,13 +157,38 @@ class Pong {
 		this.ctx.fillRect(0, 0, fieldW, fieldH);
 	}
 
+	drawScores() {
+		this.ctx.font = '500 64px Courier New';
+		this.ctx.textAlign = 'center';
+		this.ctx.fillStyle = '#ffffff';
+
+		// this.ctx.fillText('Hello world', 10, 50);
+		if (orientation === ORIENTATION.VERTICAL) {
+			this.ctx.fillText(this.scoreOne, 40, fieldH * 0.4);
+			this.ctx.fillText(this.scoreTwo, 40, fieldH * 0.6);
+		} else {
+			this.ctx.fillText(this.scoreOne, fieldW * 0.3, 60);
+			this.ctx.fillText(this.scoreTwo, fieldW - fieldW * 0.3, 60);
+		}
+	}
+
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.drawField();
+		this.drawScores();
 
 		this.paddle1.render();
 		this.paddle2.render();
 		this.ball.render();
+	}
+
+	reset(sideScored: string) {
+		sideScored === GAME.PADDLE_ONE ? this.scoreOne++ : this.scoreTwo++;
+
+		this.ball.reset();
+		// this.timeout = setTimeout(() => {
+		// clearTimeout(this.timeout);
+		// }, 300);
 	}
 
 	update() {
