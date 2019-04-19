@@ -19,7 +19,8 @@
 	},
 	"homepage": "https://github.com/kyunwang/retro-pong",
 	"dependencies": {
-		"@retro-pong/server": "0.0.1"
+		"@retro-pong/server": "0.0.1",
+		"socket.io-client": "^2.2.0"
 	},
 	"devDependencies": {
 		"lerna": "^3.13.3",
