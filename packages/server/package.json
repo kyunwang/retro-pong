@@ -6,7 +6,9 @@
 	"description": "",
 	"keywords": [],
 	"scripts": {
-		"start": ""
+		"start": "",
+		"dev": "nodemon index.js",
+		"test": "echo testing server with version: $npm_package_version"
 	},
 	"repository": {
 		"type": "git",
@@ -18,5 +20,8 @@
 	"homepage": "https://github.com/kyunwang/server",
 	"dependencies": {
 		"@retro-pong/game": "0.0.1"
+	},
+	"devDependencies": {
+		"nodemon": "^1.18.11"
 	}
 }
