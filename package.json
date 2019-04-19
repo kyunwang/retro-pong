@@ -8,7 +8,7 @@
 		"lerna": "^3.13.3"
 	},
 	"scripts": {
-		"dev": "lerna run dev",
+		"dev": "lerna run dev --parallel",
 		"test": "lerna run test"
 	}
 }
